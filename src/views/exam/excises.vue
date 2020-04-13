@@ -73,12 +73,11 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane :label="`编程题(${programExercises.length})`" name="third">
+      <el-tab-pane :label="`判断题(${programExercises.length})`" name="third">
         <el-button type="primary" id="banner-list-add" @click="showDialog('add', 2)">
           <i class="el-icon-plus"></i>
-          添加编程题
+          添加判断题
         </el-button>
-
         <el-table :data="programExercises" style="width: 100%">
           <el-table-column type="expand">
             <template slot-scope="{row}">
