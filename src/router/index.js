@@ -75,9 +75,9 @@ export const constantRoutes = [
     },
     children: [
       {
-        path: 'manage',
-        component: () => import('@/views/process/manage'),
-        meta: { title: '流程管理', icon: 'example' }
+        path: 'link',
+        component: () => import('@/views/process/link'),
+        meta: { title: '环节管理', icon: 'example' }
       },
       {
         path: 'temp',
@@ -85,9 +85,9 @@ export const constantRoutes = [
         meta: { title: '流程模板', icon: 'exit-fullscreen' }
       },
       {
-        path: 'index',
-        component: () => import('@/views/process/link'),
-        meta: { title: '环节管理', icon: 'link' }
+        path: 'manage',
+        component: () => import('@/views/process/manage'),
+        meta: { title: '流程管理', icon: 'link' }
       }
     ]
   },
