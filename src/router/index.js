@@ -94,64 +94,25 @@ export const constantRoutes = [
   {
     path: '/exam',
     component: Layout,
-    // redirect: 'index',
     meta : {
       title: '考试管理',
-      icon: 'documentation'
+      icon: 'documentation',
     },
     children: [
       {
-        path: 'add',
-        component: () => import('@/views/exam/add'),
-        // name: '发布考试',
-        meta: { title: '发布考试', icon: 'edit', noCache: true, affix: true }
+        path: 'classify',
+        component: () => import('@/views/exam'),
+        meta: { title: '考试管理', icon: 'example' }
       },
       {
-        path: 'addlist',
-        component: () => import('@/views/exam/addList'),
-        name: '我的发布',
-        meta: { title: '我的发布', icon: 'build', noCache: true, affix: true }
-      },
-      {
-        path: 'examlist',
-        component: () => import('@/views/exam/examList'),
-        name: '我的考试',
-        meta: { title: '我的考试', icon: 'monitor', noCache: true, affix: true }
-      },
-      {
-        path: 'single',
-        component: () => import('@/views/exam/test/single'),
-        // name: '单选题',
-        meta: { title: '单选题', icon: 'monitor', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'multiple',
-        component: () => import('@/views/exam/test/multiple'),
-        // name: '多选题',
-        meta: { title: '多选题', icon: 'monitor', noCache: true  },
-        hidden: true
-      },
-      {
-        path: 'judge',
-        component: () => import('@/views/exam/test/judge'),
-        // name: '判断题',
-        meta: { title: '判断题', icon: 'monitor', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'analytic',
-        component: () => import('@/views/exam/test/analytic'),
-        // name: '判断题',
-        meta: { title: '考试结果', icon: 'monitor', noCache: true },
-        hidden: true
-      },
-      {
-        path: 'done',
-        component: () => import('@/views/exam/test/done'),
-        // name: '判断题',
-        meta: { title: '答案解析', icon: 'monitor', noCache: true },
-        hidden: true
+        path: 'cateEdit',
+        component: () => import('@/views/exam/cateEdit'),
+        hidden:true
+        // meta: { title: '编辑分类', icon: 'example' }
+      },{
+        path: 'excises',
+        component: () => import('@/views/exam/excises'),
+        hidden:true
       }
     ]
   },
