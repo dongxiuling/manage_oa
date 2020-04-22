@@ -261,10 +261,8 @@ export default {
       let thisId = this.selectionItem[0].id
       let requestFun = null;
       if (type == "up") {
-        console.log("向上移动");
         requestFun = setUp;
       } else {
-        console.log("向下移动");
         requestFun = setDown;
       }
       console.log(this.selectionItem);

@@ -19,7 +19,7 @@
           <div class="btn-bar">
             <el-row :gutter="10" class="mb8">
               <el-col :span="1.5">
-                <el-button type="primary" icon="el-icon-plus" size="mini">新增模版</el-button>
+                <el-button @click="addHandle" type="primary" icon="el-icon-plus" size="mini">新增模板</el-button>
               </el-col>
             </el-row>
             <div class="status-btn">
@@ -30,21 +30,23 @@
             </div>
           </div>
           <!-- 顶部按钮区域 end -->
-          <!-- <el-tabs v-model="activeTab" type="card" @tab-click="tabChangeHandle">
-            <el-tab-pane label="使用中的" :name="0"></el-tab-pane>
-            <el-tab-pane label="未使用的" :name="1"></el-tab-pane>
-          </el-tabs>-->
+
           <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="创建日期" width="180"></el-table-column>
-            <el-table-column prop="name" label="模版名称" width="260"></el-table-column>
-            <el-table-column label="模版状态">
+            <el-table-column prop="templateName" label="模板名称" width="150"></el-table-column>
+            <el-table-column prop="describtion" label="模板描述" width="200"></el-table-column>
+            <el-table-column label="模板状态">
               <template slot-scope="scope">
                 <el-switch
-                  v-model="scope.row.isDeleted"
-                  :active-value="1"
-                  :inactive-value="0"
-                  :active-text="scope.row.isDeleted?'开启':'未开启'"
+                  v-model="scope.row.status"
+                  active-value="1"
+                  inactive-value="0"
+                  :active-text="scope.row.status=='1'?'开启':'未开启'"
                 ></el-switch>
+              </template>
+            </el-table-column>
+            <el-table-column label="模板环节">
+              <template slot-scope="scope">
+                <el-button @click="setLinkHandle" v-if="!scope.row.flowNodes" type="text" size="mini" icon="el-icon-edit">环节设置</el-button>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="200">
@@ -58,15 +60,37 @@
         </div>
       </el-col>
     </el-row>
+    <!-- 添加模板弹框 -->
+    <el-dialog title="添加模板" :visible.sync="addTempDoalog">
+      <div class="add-form">
+        <el-form ref="form" :model="addParams" label-width="80px">
+          <el-form-item label="模板名称">
+            <el-input placeholder="请输入模板名称" v-model="addParams.templateName"></el-input>
+          </el-form-item>
+          <el-form-item label="模板描述">
+            <el-input placeholder="请输入模板描述" type="textarea" v-model="addParams.describtion"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addTempDoalog = false">取 消</el-button>
+        <el-button type="primary" @click="addTempHandle">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 配置模板环节弹框 -->
+    <link-dialog @checkList="getCheckLinks" :showDialog.sync="linkDialog" :dataType="processType.now.dictValue" />
   </div>
 </template>
 
 <script>
+import linkDialog from "./components/linkDialog.vue";
 import { getType } from "@/api/process/link";
+import { addTemp,getTemp } from "@/api/process/temp";
 export default {
   data() {
     return {
-      linkStatus:"1",
+      linkStatus: "1",
       tableData: [
         {
           date: "2016-05-02",
@@ -89,6 +113,22 @@ export default {
           isDeleted: 0
         }
       ],
+      queryParams:{
+        //查询模板参数
+        templateName:"",
+        flowType:"",
+        status:"1"
+      },
+      addParams: {
+        //添加模板参数
+        templateName: "",
+        describtion: "",
+        flowNodes: [],
+        flowType: "",
+        status: "1"
+      },
+      addTempDoalog: false, //是否显示添加模板弹框
+      linkDialog: false, //是否显示配置模板环节弹框
       activeTab: 0,
       processType: {
         //流程分类列表
@@ -100,15 +140,54 @@ export default {
   created() {
     this.getWorkFollowType();
   },
+  components: {
+    linkDialog
+  },
+  watch: {
+    "processType.now": function(val) {
+      this.addParams.flowType = val.dictValue;
+      this.queryParams.flowType = val.dictValue;
+    }
+  },
   methods: {
-    //切换模版状态
-    changeStatus() {
-      
+
+    //设置环节按钮
+    setLinkHandle(){
+      this.linkDialog = true;
     },
+    //获取选中环节列表
+    getCheckLinks(arr){
+      console.log(arr);
+    },
+    //添加模板按钮
+    addHandle() {
+      this.addTempDoalog = true;
+    },
+    //添加模板事件
+    addTempHandle() {
+      let thisParms = this.addParams;
+      addTemp(thisParms).then((res)=>{
+        console.log(res);
+        this.addTempDoalog = false
+      })
+    },
+
+    //切换模板状态
+    changeStatus() {},
     //切换分类
     changeType(tab) {
       let thisIndex = tab.index;
       this.processType.now = this.processType.list[thisIndex];
+      this.queryTempHandle();
+    },
+    
+    //获取模板列表
+    queryTempHandle(){
+      let thisParms = this.queryParams;
+      getTemp(thisParms).then((res)=>{
+        console.log(res);
+        this.tableData = res.data;
+      })
     },
     //获取流程分类
     getWorkFollowType() {
@@ -159,5 +238,9 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
+}
+.add-form {
+  width: 80%;
+  margin: 0 auto;
 }
 </style>
