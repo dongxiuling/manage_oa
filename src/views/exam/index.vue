@@ -1,15 +1,5 @@
 <template>
   <div class="list">
-    <div>
-      <el-page-header @back="$router.back()" content="考试分类"></el-page-header>
-      <el-divider></el-divider>
-      <!-- <el-button
-        class="add_btn"
-        size="medium"
-        type="primary"
-        @click="$router.push('/exam/cateEdit')"
-      >+ 添加分类</el-button> -->
-    </div>
     <el-table border :data="cateData" style="width: 100%">
       <el-table-column label="ID" width="50">
         <template slot-scope="scope">
@@ -35,7 +25,6 @@ export default {
   data() {
     return {
       cateData: [],
-      listLoading: true
     };
   },
   created() {
@@ -45,14 +34,14 @@ export default {
     getData() {
       getCategory({
         pageNum: 1,
-        pageSize: 5,
+        pageSize: 1000,
         dictType: "sys_module_name"
       }).then(res => {
         this.cateData = res.rows;
       });
     },
     GoExcises(_data) {
-      this.$router.push({path:"/exam/excises/",query:{cateId:_data.dictCode}})
+      this.$router.push({path:"/exams/excises/",query:{cateId:_data.dictCode}})
     }
   }
 };
