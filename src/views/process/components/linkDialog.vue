@@ -14,21 +14,22 @@
         <el-table-column prop="nodeName" label="环节名称" width="180"></el-table-column>
         <el-table-column label="签批人">
           <template slot-scope="scope">
-            <span v-if="scope.row.isSign == '0'">无</span>
+            <span v-if="(isEdit && !scope.row.approveName) || scope.row.isSign == '0'">无</span>
             <el-button
-              v-else-if="scope.row.isSign == '1' && !scope.row.approveName"
-              @click="setApprove(scope.row.id)"
-              size="mini"
-              type="text"
-              icon="el-icon-edit"
-            >设置签批人</el-button>
-            <el-button
-              v-else-if="scope.row.isSign == '1' && scope.row.approveName"
-              @click="setApprove(scope.row.id)"
+              v-else-if="scope.row.approveName"
+              @click="setApprove(scope.row.nodeId)"
               size="mini"
               type="text"
               icon="el-icon-edit"
             >{{scope.row.approveName}}</el-button>
+            <el-button
+              v-else-if="scope.row.isSign == '1' && !scope.row.approveName"
+              @click="setApprove(scope.row.nodeId)"
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+            >设置签批人</el-button>
+            
           </template>
         </el-table-column>
       </el-table>
@@ -69,6 +70,7 @@ export default {
         status: "1",
         nodeName: ""
       },
+      isEdit:false,//是否为修改状态
       checkLinkList:[],//选中环节列表
       checkUser:{},//选中的人员
       activeLine: undefined, //当前选中行（对应设置签批人项）
@@ -82,7 +84,7 @@ export default {
    * showDialog:控制添加模版弹框是否显示
    * dataType:获取环节类型
    */
-  props: ["showDialog", "dataType"],
+  props: ["showDialog", "dataType","editData"],
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（访问DOM元素）
@@ -98,6 +100,7 @@ export default {
             approveId: undefined,
             approveName: undefined,
             nodeId: item.id,
+            id:item.id,
             nodeName: item.nodeName,
             orderNo: item.orderNo,
             isSign:item.isSign
@@ -134,7 +137,8 @@ export default {
     setUserHandle(){
       let dataArr = []
       dataArr = this.tableData.map((item)=>{
-        if(item.id == this.activeLine){
+        if(item.nodeId == this.activeLine){
+          item.id = item.nodeId;
           item.approveId=this.checkUser.id;
           item.approveName=this.checkUser.label;
         }
@@ -150,7 +154,7 @@ export default {
     },
     //提交选中环节列表
     submitLinkHandle(){
-      if(!this.checkLinkList.length){
+      if(this.checkLinkList.length){
         this.$emit("checkList",this.checkLinkList)
         this.outerVisible = false;
       }else{
@@ -161,7 +165,11 @@ export default {
   watch: {
     showDialog(val) {
       this.outerVisible = val;
-      if (val) {
+      if(val && this.editData && this.editData.length>0){
+        this.tableData = this.editData;
+        this.isEdit = true;
+      }else if(val){
+        this.isEdit = false;
         this.queryLinks();
       }
     },
