@@ -109,7 +109,7 @@ export default {
     },
     reSetHandle() {
       this.search.title = "";
-      this.search.categoryId = "";
+      this.search.categoryId = 0;
       this.getData();
     },
     handleCurrentChange(value) {
