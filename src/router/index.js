@@ -92,24 +92,16 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/exam',
+    path: '/exams',
     component: Layout,
-    meta : {
-      title: '考试管理',
-      icon: 'documentation',
-    },
+    hidden: true,
     children: [
+      // {
+      //   path: 'cateEdit',
+      //   component: () => import('@/views/exam/cateEdit'),
+      //   hidden:true
+      // },
       {
-        path: 'classify',
-        component: () => import('@/views/exam'),
-        meta: { title: '考试管理', icon: 'example' }
-      },
-      {
-        path: 'cateEdit',
-        component: () => import('@/views/exam/cateEdit'),
-        hidden:true
-        // meta: { title: '编辑分类', icon: 'example' }
-      },{
         path: 'excises',
         component: () => import('@/views/exam/excises'),
         hidden:true
@@ -166,6 +158,18 @@ export const constantRoutes = [
         component: () => import('@/views/tool/gen/editTable'),
         name: 'GenEdit',
         meta: { title: '修改生成配置' }
+      }
+    ]
+  },{
+    path:'/meetings',
+    component: Layout,
+    hidden: true,
+    children:[
+      {
+        path: 'detail',
+        component: () => import('@/views/meeting/list/detail'),
+        name: 'meeting',
+        meta: { title: '会议列表' }
       }
     ]
   }
