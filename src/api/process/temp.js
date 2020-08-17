@@ -41,7 +41,7 @@ export function deleteTemp(params) {
 
 export function getItem(params) {
   return request({
-    url: '/workflowtemplate/getById/'+params.id,
+    url: '/workflowtemplate/getTempById/'+params.id,
     method: 'get'
   })
 }

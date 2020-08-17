@@ -187,9 +187,12 @@ export default {
     getCheckLinks(arr) {
       let thisParams = { ...this.checkItem };
       thisParams.flowNodes = [...arr];
-
       updateTemp(thisParams).then(res => {
-        console.log(res);
+        this.$message({
+          type: "success",
+          message: "设置成功!"
+        });
+        this.queryTempHandle();
       });
     },
     //添加模板按钮
