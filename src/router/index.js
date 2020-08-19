@@ -66,32 +66,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/process',
-    component: Layout,
-    // redirect: 'index',
-    meta : {
-      title: '流程管理',
-      icon: 'clipboard'
-    },
-    children: [
-      {
-        path: 'link',
-        component: () => import('@/views/process/link'),
-        meta: { title: '环节管理', icon: 'example' }
-      },
-      {
-        path: 'temp',
-        component: () => import('@/views/process/temp'),
-        meta: { title: '流程模板', icon: 'exit-fullscreen' }
-      },
-      {
-        path: 'manage',
-        component: () => import('@/views/process/manage'),
-        meta: { title: '流程管理', icon: 'link' }
-      }
-    ]
-  },
-  {
     path: '/exams',
     component: Layout,
     hidden: true,
