@@ -34,7 +34,8 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-tag type="success" @click="lookHandle(scope.row )">查看</el-tag>
-          <el-tag  @click="downHandle(scope.row )">下载</el-tag>
+          <!-- <el-tag  @click="downHandle(scope.row )">下载</el-tag> -->
+          <el-tag  @click="deleteHandle(scope.row )">删除</el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -54,7 +55,7 @@
 
 <script>
 import { getCategory } from "@/api/tool/category.js";
-import { getFileList } from "@/api/file/index.js";
+import { getFileList ,delFile} from "@/api/file/index.js";
 
 export default {
   data() {
@@ -128,7 +129,30 @@ export default {
       // downLoadFile({ id: obj.id }).then(res => {
         window.open(obj.url);
       // });
-    }
+    },
+    // 删除
+    deleteHandle(_data){
+      this.$confirm('此操作将永久且无法恢复, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delFile({
+          id:_data.id
+        }).then(res => {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            this.getData();
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });
+    },
   },
   created() {
     this.getData();

@@ -8,3 +8,10 @@ export function getFileList(data) {
       data:data
     })
   }
+  // 管理员删除资料
+export function delFile(data) {
+  return request({
+    url: '/resources/delResourcesById/'+data.id,
+    method: 'get'
+  })
+}
