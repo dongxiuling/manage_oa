@@ -43,9 +43,9 @@ service.interceptors.response.use(res => {
         })
       })
     } else if (code*1 !== 200) {
-      Notification.error({
-        title: res.data.msg
-      })
+      // Notification.error({
+      //   title: res.data.msg
+      // })
       return Promise.reject('error')
     } 
     else {
@@ -53,12 +53,11 @@ service.interceptors.response.use(res => {
     }
   },
   error => {
-    console.log('err' + error)
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    // Message({
+    //   message: error.message,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
     return Promise.reject(error)
   }
 )
