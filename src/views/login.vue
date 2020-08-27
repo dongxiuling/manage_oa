@@ -134,7 +134,6 @@ export default {
           this.$store
             .dispatch("Login", this.loginForm)
             .then(res => {
-              console.log(res);
               if (res == 2) {
                 this.$message({
                   message: "验证码错误",

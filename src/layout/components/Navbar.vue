@@ -116,6 +116,7 @@ export default {
   padding-right: 20px;
   position: relative;
   .user-name{
+    font-size: 14px;
     display: flex;
     justify-content: center;
   }
