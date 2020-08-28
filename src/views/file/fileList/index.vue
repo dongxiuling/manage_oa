@@ -25,9 +25,7 @@
       </el-form-item>
     </el-form>
     <el-table :data="fileList" style="width: 100%" v-loading="loading">
-      <el-table-column label="序号">
-        <template slot-scope="scope">{{ scope.row.id }}</template>
-      </el-table-column>
+      <el-table-column type="index" width="50" label="序号" :index="(currentPage-1)*pageSize+1"></el-table-column>
       <el-table-column prop="title" label="文件名称"></el-table-column>
       <el-table-column prop="createTime" label="上传时间" width="180"></el-table-column>
       <el-table-column prop="categoryName" label="模块"></el-table-column>
