@@ -161,7 +161,7 @@ export const constantRoutes = [
         meta: { title: '会场详情' }
       }
     ]
-  }
+  },
 ]
 
 export default new Router({
